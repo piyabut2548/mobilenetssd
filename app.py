@@ -151,11 +151,15 @@ def event_handle(event):
         msg = str(event["message"]["text"])
         if (msg == "สวัสดี") :
             replyObj = TextSendMessage(text="ดีด้วย")
+            line_bot_api.reply_message(rtoken, replyObj)
         elif (msg == "อยู่ไหน") :
+            line_bot_api.reply_message(rtoken, replyObj)
             replyObj = TextSendMessage(text="บ้าน")
         elif (msg == "กินข้าวไหม") :
+            line_bot_api.reply_message(rtoken, replyObj)         
             replyObj = TextSendMessage(text="กิน")
         elif (msg == "ไปไหน") :
+            line_bot_api.reply_message(rtoken, replyObj)
             replyObj = TextSendMessage(text="นอน")
         else :
             headers = request.headers
@@ -179,7 +183,7 @@ def event_handle(event):
             crl.close()
                        
             replyObj = TextSendMessage(text=msg)
-        line_bot_api.reply_message(rtoken, replyObj)
+            line_bot_api.reply_message(rtoken, replyObj)
     elif msgType == "image":
         try:
             message_content = line_bot_api.get_message_content(event['message']['id'])
