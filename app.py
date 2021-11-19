@@ -153,14 +153,14 @@ def event_handle(event):
             replyObj = TextSendMessage(text="ดีด้วย")
             line_bot_api.reply_message(rtoken, replyObj)
         elif (msg == "อยู่ไหน") :
-            line_bot_api.reply_message(rtoken, replyObj)
             replyObj = TextSendMessage(text="บ้าน")
-        elif (msg == "กินข้าวไหม") :
-            line_bot_api.reply_message(rtoken, replyObj)         
-            replyObj = TextSendMessage(text="กิน")
-        elif (msg == "ไปไหน") :
             line_bot_api.reply_message(rtoken, replyObj)
+        elif (msg == "กินข้าวไหม") :       
+            replyObj = TextSendMessage(text="กิน")
+            line_bot_api.reply_message(rtoken, replyObj)
+        elif (msg == "ไปไหน") :
             replyObj = TextSendMessage(text="นอน")
+            line_bot_api.reply_message(rtoken, replyObj)
         else :
             headers = request.headers
             json_headers = json.dumps({k:v for k, v in headers.items()})
@@ -170,7 +170,7 @@ def event_handle(event):
             decoded = json.loads(json_line)
             '''
             crl= pycurl.Curl()
-            crl.setopt( crl.URL, "https://bots.dialogflow.com/line/k--jomf/webhook%22)
+            crl.setopt( crl.URL, "https://bots.dialogflow.com/line/l--bygk/webhook")
             crl.setopt( crl.POST, 1)
             #crl.setopt( crl.BINARYTRANSFER, true)
             #crl.setopt( crl.POSTFIELDS, json_headers)
