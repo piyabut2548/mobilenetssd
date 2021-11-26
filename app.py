@@ -153,14 +153,14 @@ def event_handle(event,json_line):
             replyObj = TextSendMessage(text="ดีด้วย")
             line_bot_api.reply_message(rtoken, replyObj)
         elif (msg == "กินไรยัง") :
-            line_bot_api.reply_message(rtoken, replyObj)
-            replyObj = TextSendMessage(text="กินแล้ววว")
+            replyObj = TextSendMessage(text="กินแล้ววว") 
+            line_bot_api.reply_message(rtoken, replyObj)    
         elif (msg == "แม่ให้กินหนมป่าว") :
-            line_bot_api.reply_message(rtoken, replyObj)    
             replyObj = TextSendMessage(text="ม่ายให้กินค่าาา")
+            line_bot_api.reply_message(rtoken, replyObj)            
         elif (msg == "ไปเที่ยวกันนน") :
-            line_bot_api.reply_message(rtoken, replyObj)    
-            replyObj = TextSendMessage(text="ติดโควิดค่ะสาว")
+           replyObj = TextSendMessage(text="ติดโควิดค่ะสาว") 
+           line_bot_api.reply_message(rtoken, replyObj)     
         elif msg == "covid" :
             url = "https://covid19.ddc.moph.go.th/api/Cases/today-cases-all"
             response = requests.get(url)
