@@ -108,7 +108,7 @@ def callback():
     no_event = len(decoded['events'])
     for i in range(no_event):
             event = decoded['events'][i]
-            event_handle(event)
+            event_handle(event,json_line)
 
     # เชื่อมต่อกับ dialogflow
     #intent = decoded["queryResult"]["intent"]["displayName"] 
@@ -124,7 +124,7 @@ def reply(intent,text,reply_token,id,disname):
     text_message = TextSendMessage(text="ทดสอบ")
     line_bot_api.reply_message(reply_token,text_message)
 
-def event_handle(event):
+def event_handle(event,json_line):
     print(event)
     try:
         userId = event['source']['userId']
@@ -163,27 +163,10 @@ def event_handle(event):
             replyObj = TextSendMessage(text="ติดโควิดค่ะสาว")
         else :    
             headers = request.headers
-            json_headers = json.dumps({k:v for k, v in headers.items()})
-            '''
-            json_line = request.get_json(force=False,cache=False)
-            json_line = json.dumps(json_line)
-            decoded = json.loads(json_line)
-            '''
-            #crl= pycurl.Curl()
-            #crl.setopt( crl.URL, "https://bots.dialogflow.com/line/harry-pcdy/webhook")
-            #crl.setopt( crl.POST, 1)
-            #crl.setopt( crl.BINARYTRANSFER, true)
-            #crl.setopt( crl.POSTFIELDS, json_headers)
-            #crl.setopt( crl.HTTPHEADER, json_headers)
-            #crl.setopt( crl.SSL_VERIFYHOST, 2)
-            #crl.setopt( crl.SSL_VERIFYPEER, 1)
-            #crl.setopt( crl.FOLLOWLOCATION, 1)
-            #crl.setopt( crl.RETURNTRANSFER, 1)
-            #crl.perform()
-            #crl.close()
-
-            replyObj = TextSendMessage(text=json_headers)
-            line_bot_api.reply_message(rtoken, replyObj)
+            json_headers = ({k:v for k, v in headers.items()})
+            json_headers.update({'Host':'bots.dialogflow.com'})
+            url = "https://dialogflow.cloud.google.com/v1/integrations/line/webhook/d33a1408-0889-42f2-8075-9ab8a308134b"
+            requests.post(url,data=json_line, headers=json_headers)    
     elif msgType == "image":
         try:
             message_content = line_bot_api.get_message_content(event['message']['id'])
@@ -191,7 +174,7 @@ def event_handle(event):
             filename = event['message']['id'] + '.jpg'
             i.save(UPLOAD_FOLDER + filename)
             process_file(os.path.join(UPLOAD_FOLDER, filename), filename)
-
+            
             url = request.url_root + DOWNLOAD_FOLDER + filename
             
             line_bot_api.reply_message(
