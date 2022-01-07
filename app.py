@@ -156,7 +156,7 @@ def event_handle(event,json_line):
             replyObj = TextSendMessage(text="กินแล้ววว") 
             line_bot_api.reply_message(rtoken, replyObj)    
         elif (msg == "ขอตังหน่อย") :
-            replyObj = TextSendMessage(text="wfh")
+            replyObj = TextSendMessage(text="ได้")
             line_bot_api.reply_message(rtoken, replyObj)            
         elif (msg == "ไปเที่ยวกันนน") :
            replyObj = TextSendMessage(text="ไปไหน") 
