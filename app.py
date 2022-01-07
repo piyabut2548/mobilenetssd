@@ -26,7 +26,8 @@ UPLOAD_FOLDER ='static/uploads/'
 DOWNLOAD_FOLDER = 'static/downloads/'
 ALLOWED_EXTENSIONS = {'jpg', 'png','.jpeg'}
 
-lineaccesstoken = 'dSEb2yWmWuu98GL0mm6zwBHJPJKIHkdIkBy0y6lL3QbqxDwBJ0RF8Ldty438kj4lgDElriDU0H02RGm6h5dkafC44IF+TUdoiTFMMQLcRgvsWr9hRmVMowf/WPj9aDDo/MGDlNK4nURKrUNCUmPzbwdB04t89/1O/w1cDnyilFU='
+lineaccesstoken = 'I7rJsM3TFredEVWKs2+fIA7FySrINJGcgtsLbQJZLybcu0ogSB+veBEXnjXUAvH3d1HPMubhgaaZ4Lhgr46+E1MZj2TQb+NRERvv9NYEaymbB5FP1ymgbNRgtFCX0ZTaZMajG//jbsSaY/a4KT5omAdB04t89/1O/w1cDnyilFU='
+
 line_bot_api = LineBotApi(lineaccesstoken)
 
 # APP CONFIGURATIONS
@@ -107,7 +108,7 @@ def callback():
     no_event = len(decoded['events'])
     for i in range(no_event):
             event = decoded['events'][i]
-            event_handle(event)
+            event_handle(event,json_line)
 
     # เชื่อมต่อกับ dialogflow
     #intent = decoded["queryResult"]["intent"]["displayName"] 
@@ -123,7 +124,7 @@ def reply(intent,text,reply_token,id,disname):
     text_message = TextSendMessage(text="ทดสอบ")
     line_bot_api.reply_message(reply_token,text_message)
 
-def event_handle(event):
+def event_handle(event,json_line):
     print(event)
     try:
         userId = event['source']['userId']
@@ -150,17 +151,14 @@ def event_handle(event):
         msg = str(event["message"]["text"])
         if (msg == "สวัสดี") :
             replyObj = TextSendMessage(text="ดีด้วย")
-            line_bot_api.reply_message(rtoken, replyObj)         
-        elif (msg == "อยู่ไหน") :
-            replyObj = TextSendMessage(text="บ้าน")
             line_bot_api.reply_message(rtoken, replyObj)
-        elif (msg == "กินข้าวไหม") :       
-            replyObj = TextSendMessage(text="กิน")
+        elif (msg == "กินก๋วยเตี๋ยวไหม") :
+            replyObj = TextSendMessage(text="กินสิ หิวพอดีเลย")
+            line_bot_api.reply_message(rtoken, replyObj)    
+        elif (msg == "ไปเที่ยวไหม") :
+            replyObj = TextSendMessage(text="ไปสิ")
             line_bot_api.reply_message(rtoken, replyObj)
-        elif (msg == "ไปไหน") :
-            replyObj = TextSendMessage(text="นอน")
-            line_bot_api.reply_message(rtoken, replyObj)
-             elif msg == "covid" :
+        elif msg == "covid" :
             url = "https://covid19.ddc.moph.go.th/api/Cases/today-cases-all"
             response = requests.get(url)
             response = response.json()
@@ -168,9 +166,9 @@ def event_handle(event):
             line_bot_api.reply_message(rtoken, replyObj)
         else :
             headers = request.headers
-            json_headers = json.dumps({k:v for k, v in headers.items()})
-              json_headers.update({'Host':'bots.dialogflow.com'})
-            url = "https://dialogflow.cloud.google.com/v1/integrations/line/webhook/fd8dc6da-807d-47e5-9429-eb155e91fc5f"
+            json_headers = ({k:v for k, v in headers.items()})
+            json_headers.update({'Host':'bots.dialogflow.com'})
+            url = "https://dialogflow.cloud.google.com/v1/integrations/line/webhook/0a0c1353-cd4a-4fcb-a207-33e08f3b7bb4"
             requests.post(url,data=json_line, headers=json_headers)
     elif msgType == "image":
         try:
